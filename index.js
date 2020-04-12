@@ -35,14 +35,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //routes
+require('./routes/Dashboard')(app);
 require('./routes/SignUp')(app);
 require('./routes/Login')(app);
 require('./routes/Blogpost')(app);
 
-
-app.get('/' , (req,res)=>{
-    if(req.user)
-        res.render('dashboard');
-    else    
-        res.redirect('/login');
-})
