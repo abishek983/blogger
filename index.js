@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const mongoURI = require('./mongodb').mongoURI;
 const passport = require('passport');
@@ -23,13 +24,25 @@ mongoose.connect(mongoURI, { useNewUrlParser: true , useUnifiedTopology: true})
     .catch(err => console.log(err))
 
 //passport initialize
+// app.use(passport.initialize());
+// app.use(passport.session());    
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}))
 app.use(passport.initialize());
-app.use(passport.session());    
+app.use(passport.session());
 
 //routes
 require('./routes/SignUp')(app);
 require('./routes/Login')(app);
+require('./routes/Blogpost')(app);
+
 
 app.get('/' , (req,res)=>{
-    res.render('login');
+    if(req.user)
+        res.render('dashboard');
+    else    
+        res.redirect('/login');
 })
