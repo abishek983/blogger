@@ -6,7 +6,8 @@ const mongoURI = require('./mongodb').mongoURI;
 const passport = require('passport');
 
 const app = express();
-app.listen(8080, () => console.log('Server running on 8080'));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log('Server running on 8080'));
 
 //EJS
 app.set('view engine','ejs');
